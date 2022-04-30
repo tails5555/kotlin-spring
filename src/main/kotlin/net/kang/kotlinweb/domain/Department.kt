@@ -1,5 +1,6 @@
 package net.kang.kotlinweb.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -14,5 +15,9 @@ data class Department (
     val name: String,
 
     @Column(name = "phone", length = 15)
-    val phone: String
+    val phone: String,
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    var employees: List<Employee> = mutableListOf()
 ) : BaseEntity()

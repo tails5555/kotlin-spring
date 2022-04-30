@@ -2,6 +2,7 @@ package net.kang.kotlinweb.domain
 
 import javax.persistence.*
 
+// data class 는 toString, equals, hashCode 이런 것들을 자동으로 구현해준다.
 @Entity
 @Table(name = "_employee")
 data class Employee (
@@ -19,7 +20,8 @@ data class Employee (
     @Column(name = "email", length = 60)
     val email: String,
 
+    // Department ID 값이 삭제되게 하려면 ON DELETE NULL, ON DELETE CASCADE 를 확인해야 한다.
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = true) // 원래 이거 안 써도 되긴 하지만, 테이블의 초기 생성 테스트를 위해 쓰는 것이다.
-    val department: Department
+    @JoinColumn(name = "department_id", nullable = true)
+    var department: Department?
 ) : BaseEntity()

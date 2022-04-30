@@ -16,7 +16,8 @@ class DepartmentServiceImpl (
             .collect(Collectors.toList())
     }
 
-    override fun findById(id: Long): Department {
+    // T? 이렇게 써줘야 null 도 반환이 가능하다. T 만 쓰면 무조건 T 타입 객체를 반환 할 수 밖에 없다.
+    override fun findById(id: Long): Department? {
         return departmentRepository.findById(id).orElse(null)
     }
 
@@ -29,12 +30,15 @@ class DepartmentServiceImpl (
     }
 
     override fun deleteById(id: Long): MutableMap<String, *> {
-        val res: Boolean = departmentRepository.existsById(id)
-        if (res) {
+        val res: Department? = departmentRepository.findById(id).orElse(null)
+        if (res != null) {
+            // ON DELETE SET NULL 할 때, 모든 사원들을 돌면서 department 값을 null 로 하는게 나을까?
+            // 차라리 employees 에 있는 사원들의 department 값을 NULL 로 처리하여 UPDATE 하는게 더 낫지 않을까?
+            res.employees.forEach { e -> e.department = null }
             departmentRepository.deleteById(id)
         }
         return mutableMapOf(
-            "result" to res
+            "result" to (res != null)
         )
     }
 }

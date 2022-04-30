@@ -1,7 +1,6 @@
 package net.kang.kotlinweb.service
 
 import net.kang.kotlinweb.domain.Employee
-import net.kang.kotlinweb.repository.DepartmentRepository
 import net.kang.kotlinweb.repository.EmployeeRepository
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
@@ -17,7 +16,7 @@ class EmployeeServiceImpl (
                 .collect(Collectors.toList())
     }
 
-    override fun findById(id: Long): Employee {
+    override fun findById(id: Long): Employee? {
         return employeeRepository.findById(id).orElse(null)
     }
 
