@@ -8,7 +8,7 @@ import java.util.stream.StreamSupport
 
 @Service
 class EmployeeServiceImpl (
-    var employeeRepository: EmployeeRepository
+    private var employeeRepository: EmployeeRepository
 ): EmployeeService {
     override fun findAll(): List<Employee> {
         return StreamSupport
